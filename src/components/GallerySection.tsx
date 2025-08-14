@@ -70,7 +70,7 @@ export function GallerySection() {
           {/* Video Section */}
           <div className="mt-16">
             <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-              भागवत कथा 2019 - वीडियो गैलरी
+              भागवत कथा - वीडियो गैलरी
             </h3>
             <div className="relative max-w-4xl mx-auto">
               <video

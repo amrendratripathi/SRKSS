@@ -28,7 +28,7 @@ export function FounderSection() {
                 
                 <div className="p-8 flex flex-col justify-center bg-gradient-hero">
                   <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                    श्री महेंद्र राम त्रिपाठी
+                    Mr Mahendra Ram Tripathi
                   </h3>
                   <p className="text-primary font-semibold mb-6 text-lg">
                     संस्थापक एवं अध्यक्ष

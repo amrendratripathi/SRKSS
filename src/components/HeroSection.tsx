@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Play, Users, Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function HeroSection() {
   return (
@@ -52,13 +53,11 @@ export function HeroSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/join-trust"
-            >
+            <Link to="/join-trust">
               <Button variant="spiritual" size="lg">
                 संस्थान से जुड़ें
               </Button>
-            </a>
+            </Link>
             <a
               href="https://www.youtube.com/@shriradhekrishnasewasansth2592"
               target="_blank"

@@ -96,7 +96,7 @@ export function JoinUsSection() {
                 >
                   <Button variant="spiritual" size="lg" className="font-semibold">
                     <Heart className="h-5 w-5 mr-2" />
-                    अभी जुड़ें
+                    अभी जुड़ें.
                   </Button>
                 </a>
                 <a

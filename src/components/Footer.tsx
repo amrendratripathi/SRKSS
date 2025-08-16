@@ -9,7 +9,7 @@ export function Footer() {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <img
-                src="/lovable-uploads/4ab89475-f062-4c93-be31-cde14e30ef1f.png"
+                src="/lovable-uploads/trust_logo.png"
                 alt="Shri Radhe Krishna Sewa Sansthan Logo"
                 className="h-12 w-12 rounded-full"
               />

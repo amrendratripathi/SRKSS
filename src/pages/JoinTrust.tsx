@@ -6,8 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Upload, Send } from "lucide-react";
 import { Link } from "react-router-dom";
-  import { TrustMemberCard } from "@/components/TrustMemberCard";
-  import MemberIdGenerator from "@/utils/memberIdGenerator";
+import { TrustMemberCard } from "@/components/TrustMemberCard";
 
 export function JoinTrust() {
   const [formData, setFormData] = useState({
@@ -45,7 +44,7 @@ export function JoinTrust() {
   };
 
   const handlePayment = () => {
-    const upiUrl = "upi://pay?pa=9572144482@upi&pn=Amrendra&cu=INR";
+    const upiUrl = "upi://pay?pa=9572144482@ibl&pn=Mahendra&cu=INR";
     window.open(upiUrl, "_blank");
   };
 
@@ -76,20 +75,17 @@ export function JoinTrust() {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-             // Generate unique member ID starting from 202501
-       const memberId = await MemberIdGenerator.generateUniqueId();
-       
-       // Create member data for trust card
-       const newMemberData = {
-         name: formData.name,
-         mobile: formData.mobile,
-         location: formData.location,
-         email: formData.email,
-         gender: formData.gender,
-         photo: formData.photo ? URL.createObjectURL(formData.photo) : undefined,
-         createdAt: new Date().toISOString(),
-         memberId: memberId
-       };
+      // Create member data for trust card
+      const newMemberData = {
+        name: formData.name,
+        mobile: formData.mobile,
+        location: formData.location,
+        email: formData.email,
+        gender: formData.gender,
+        photo: formData.photo ? URL.createObjectURL(formData.photo) : undefined,
+        createdAt: new Date().toISOString(),
+        memberId: `TRUST${Date.now()}`
+      };
       
       setMemberData(newMemberData);
       setShowTrustCard(true);

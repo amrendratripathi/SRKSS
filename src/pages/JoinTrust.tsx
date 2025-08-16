@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Upload, Send } from "lucide-react";
 import { Link } from "react-router-dom";
+  import { TrustMemberCard } from "@/components/TrustMemberCard";
+  import MemberIdGenerator from "@/utils/memberIdGenerator";
 
 export function JoinTrust() {
   const [formData, setFormData] = useState({
@@ -13,12 +15,17 @@ export function JoinTrust() {
     mobile: "",
     location: "",
     email: "",
+    mail: "",
+    gender: "",
+    photo: null as File | null,
     paymentScreenshot: null as File | null
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showTrustCard, setShowTrustCard] = useState(false);
+  const [memberData, setMemberData] = useState<any>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -29,15 +36,16 @@ export function JoinTrust() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const fieldName = e.target.name;
       setFormData(prev => ({
         ...prev,
-        paymentScreenshot: file
+        [fieldName]: file
       }));
     }
   };
 
   const handlePayment = () => {
-    const upiUrl = "upi://pay?pa=rajjubabu531@okhdfcbank&pn=Rajjubabu&cu=INR";
+    const upiUrl = "upi://pay?pa=9572144482@upi&pn=Amrendra&cu=INR";
     window.open(upiUrl, "_blank");
   };
 
@@ -52,6 +60,11 @@ export function JoinTrust() {
       submitData.append("mobile", formData.mobile);
       submitData.append("location", formData.location);
       submitData.append("email", formData.email);
+      submitData.append("mail", formData.mail);
+      submitData.append("gender", formData.gender);
+      if (formData.photo) {
+        submitData.append("photo", formData.photo);
+      }
       if (formData.paymentScreenshot) {
         submitData.append("paymentScreenshot", formData.paymentScreenshot);
       }
@@ -63,7 +76,23 @@ export function JoinTrust() {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      alert("आपका आवेदन सफलतापूर्वक प्राप्त हो गया है! धन्यवाद 🙏");
+             // Generate unique member ID starting from 202501
+       const memberId = await MemberIdGenerator.generateUniqueId();
+       
+       // Create member data for trust card
+       const newMemberData = {
+         name: formData.name,
+         mobile: formData.mobile,
+         location: formData.location,
+         email: formData.email,
+         gender: formData.gender,
+         photo: formData.photo ? URL.createObjectURL(formData.photo) : undefined,
+         createdAt: new Date().toISOString(),
+         memberId: memberId
+       };
+      
+      setMemberData(newMemberData);
+      setShowTrustCard(true);
       
       // Reset form
       setFormData({
@@ -71,6 +100,9 @@ export function JoinTrust() {
         mobile: "",
         location: "",
         email: "",
+        mail: "",
+        gender: "",
+        photo: null,
         paymentScreenshot: null
       });
     } catch (error) {
@@ -94,7 +126,7 @@ export function JoinTrust() {
           <Card className="mb-8 shadow-divine">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl md:text-3xl font-bold text-foreground">
-                🙏 श्री राधे कृष्ण सेवा संस्थान ट्रस्ट में आपका स्वागत है 🙏
+                🙏 श्री राधे कृष्ण सेवा संस्थान में आपका स्वागत है 🙏
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-4">
@@ -187,6 +219,53 @@ export function JoinTrust() {
                   />
                 </div>
 
+                {/* Gender Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="gender" className="text-base font-semibold">
+                    लिंग *
+                  </Label>
+                  <select
+                    id="gender"
+                    name="gender"
+                    required
+                    value={formData.gender}
+                    onChange={handleInputChange}
+                    className="w-full h-12 px-3 py-2 border border-input bg-background text-foreground rounded-md text-base focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  >
+                    <option value="">लिंग चुनें</option>
+                    <option value="male">पुरुष</option>
+                    <option value="female">महिला</option>
+                    <option value="other">अन्य</option>
+                  </select>
+                </div>
+
+                {/* Photo Upload */}
+                <div className="space-y-2">
+                  <Label htmlFor="photo" className="text-base font-semibold">
+                    फोटो *
+                  </Label>
+                  <div className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                    <input
+                      id="photo"
+                      name="photo"
+                      type="file"
+                      accept="image/*"
+                      required
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                    <label htmlFor="photo" className="cursor-pointer">
+                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-muted-foreground">
+                        {formData.photo 
+                          ? `फोटो चुनी गई: ${formData.photo.name}`
+                          : "अपनी फोटो अपलोड करने के लिए क्लिक करें"
+                        }
+                      </p>
+                    </label>
+                  </div>
+                </div>
+
                 {/* Payment Section */}
                 <div className="space-y-4 p-6 bg-muted/30 rounded-lg">
                   <h3 className="text-lg font-semibold text-center text-primary">
@@ -264,6 +343,14 @@ export function JoinTrust() {
           </Card>
         </div>
       </div>
+      
+      {/* Trust Member Card Modal */}
+      {showTrustCard && memberData && (
+        <TrustMemberCard
+          memberData={memberData}
+          onClose={() => setShowTrustCard(false)}
+        />
+      )}
     </div>
   );
 }

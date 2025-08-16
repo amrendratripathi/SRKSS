@@ -119,3 +119,12 @@ All colors MUST be HSL.
     text-shadow: 3px 3px 0px #92400e, 6px 6px 0px #ea580c, 9px 9px 0px #fb923c, 0 0 40px rgba(251,146,60,1), 0 0 80px rgba(255,255,255,0.8), 0 0 120px rgba(251,146,60,0.6);
   }
 }
+
+@keyframes elegantGlow {
+  from {
+    text-shadow: 2px 2px 4px rgba(234,88,12,0.3), 4px 4px 8px rgba(234,88,12,0.2), 0 0 20px rgba(234,88,12,0.1);
+  }
+  to {
+    text-shadow: 2px 2px 4px rgba(234,88,12,0.4), 4px 4px 8px rgba(234,88,12,0.3), 0 0 30px rgba(234,88,12,0.2), 0 0 40px rgba(234,88,12,0.1);
+  }
+}

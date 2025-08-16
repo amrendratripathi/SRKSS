@@ -7,7 +7,7 @@ export function Header() {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <img
-            src="/lovable-uploads/4ab89475-f062-4c93-be31-cde14e30ef1f.png"
+            src="/lovable-uploads/trust_logo.png"
             alt="Shri Radhe Krishna Sewa Sansthan Logo"
             className="h-16 w-16 rounded-full shadow-divine"
           />

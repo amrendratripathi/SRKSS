@@ -51,7 +51,7 @@ export function EventsSection() {
 
               <div className="bg-card rounded-lg p-6 shadow-soft">
                 <h3 className="text-xl font-bold text-foreground mb-4">
-                  भागवत कथा की विशेषताएं:
+                श्री राधे कृष्ण सेवा संस्थान के कार्य:
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <ul className="space-y-2 text-muted-foreground">
@@ -71,6 +71,10 @@ export function EventsSection() {
                       <span className="text-primary">•</span>
                       <span>आध्यात्मिक प्रवचन एवं चर्चा</span>
                     </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-accent">•</span>
+                      <span>धार्मिक छेत्रो की सामूहिक यात्रा</span>
+                    </li>
                   </ul>
                   <ul className="space-y-2 text-muted-foreground">
                     <li className="flex items-start space-x-2">
@@ -88,6 +92,10 @@ export function EventsSection() {
                     <li className="flex items-start space-x-2">
                       <span className="text-secondary">•</span>
                       <span>समाज सेवा के कार्य</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-primary">•</span>
+                      <span>पुराने मंदिरों का जीर्णोद्धार</span>
                     </li>
                   </ul>
                 </div>

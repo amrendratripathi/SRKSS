@@ -90,7 +90,7 @@ export function JoinUsSection() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href="https://docs.google.com/forms/d/1b7AR9ZgYDKZGjhwNyxkm6ctXT2sUtrL7CtlaVCQTwHo/edit"
+                  href="/join-trust"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

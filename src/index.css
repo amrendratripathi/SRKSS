@@ -110,3 +110,12 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes glow {
+  from {
+    text-shadow: 3px 3px 0px #92400e, 6px 6px 0px #ea580c, 9px 9px 0px #fb923c, 0 0 30px rgba(251,146,60,0.8), 0 0 60px rgba(255,255,255,0.6);
+  }
+  to {
+    text-shadow: 3px 3px 0px #92400e, 6px 6px 0px #ea580c, 9px 9px 0px #fb923c, 0 0 40px rgba(251,146,60,1), 0 0 80px rgba(255,255,255,0.8), 0 0 120px rgba(251,146,60,0.6);
+  }
+}

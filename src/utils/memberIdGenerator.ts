@@ -25,8 +25,8 @@ class MemberIdGenerator {
 
   // Generate next member ID
   static generateNextId(): string {
-    const nextId = this.currentId.toString();
     this.currentId++;
+    const nextId = this.currentId.toString();
     this.saveCurrentId();
     return nextId;
   }
@@ -82,7 +82,7 @@ class MemberIdGenerator {
 // Initialize the generator when the module is loaded
 MemberIdGenerator.initialize();
 
-// Reset to 109998 so first generated ID will be 109999, then 110000, then 110001 onwards
-MemberIdGenerator.setCurrentId(109998);
+// Set counter to 110000 so first generated ID will be 110001
+MemberIdGenerator.setCurrentId(110000);
 
 export default MemberIdGenerator;

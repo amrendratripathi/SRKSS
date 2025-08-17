@@ -1,17 +1,24 @@
 // Member ID Generator Utility
-// Starts from 202501 and increments by 1 for each new member
+// Starts from 110001 and increments by 1 for each new member
 
 class MemberIdGenerator {
-  private static currentId = 202501;
+  private static currentId = 110001;
   private static readonly STORAGE_KEY = 'trust_member_counter';
 
-  // Initialize the counter from localStorage or start from 202501
+  // Initialize the counter from localStorage or start from 110001
   static initialize() {
     const stored = localStorage.getItem(this.STORAGE_KEY);
     if (stored) {
-      this.currentId = parseInt(stored, 10);
+      const storedId = parseInt(stored, 10);
+      // If stored ID is less than 110001, reset to 110001
+      if (storedId < 110001) {
+        this.currentId = 110001;
+        this.saveCurrentId();
+      } else {
+        this.currentId = storedId;
+      }
     } else {
-      this.currentId = 202501;
+      this.currentId = 110001;
       this.saveCurrentId();
     }
   }
@@ -29,9 +36,9 @@ class MemberIdGenerator {
     return this.currentId;
   }
 
-  // Reset counter to 202501
+  // Reset counter to 110001
   static reset(): void {
-    this.currentId = 202501;
+    this.currentId = 110001;
     this.saveCurrentId();
   }
 
@@ -74,5 +81,8 @@ class MemberIdGenerator {
 
 // Initialize the generator when the module is loaded
 MemberIdGenerator.initialize();
+
+// Reset to 109998 so first generated ID will be 109999, then 110000, then 110001 onwards
+MemberIdGenerator.setCurrentId(109998);
 
 export default MemberIdGenerator;

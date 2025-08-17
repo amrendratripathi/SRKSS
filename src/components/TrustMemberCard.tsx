@@ -93,95 +93,100 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
                 <div className="relative z-10 h-full flex">
                                      {/* Left Section - Trust Branding */}
                    <div className="w-2/5 flex flex-col items-center justify-center p-4 border-r border-orange-300/30">
-                     <div className="w-16 h-16 bg-orange-500/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-3 shadow-lg border border-orange-400/30">
-                       <img 
-                         src="/lovable-uploads/trust_logo.png" 
-                         alt="Trust Logo"
-                         className="w-10 h-10 object-contain"
-                         onError={(e) => {
-                           const target = e.target as HTMLImageElement;
-                           target.style.display = 'none';
-                           target.nextElementSibling?.classList.remove('hidden');
-                         }}
-                       />
-                       <span className="text-orange-700 text-2xl font-bold hidden">श्री</span>
-                     </div>
-                     <h1 className="text-sm font-bold text-orange-800 mb-1 leading-tight text-center">
-                       श्री राधे कृष्ण<br />सेवा संस्थान
-                     </h1>
-                     <p className="text-xs text-orange-600 font-medium text-center">Shri Radhe Krishna<br />Seva Sansthan</p>
+                                           <div className="w-20 h-20 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-3 shadow-lg border border-orange-400/30">
+                        <img 
+                          src="/lovable-uploads/trust_logo.png" 
+                          alt="Trust Logo"
+                          className="w-[72px] h-[72px] object-contain rounded-full"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            target.nextElementSibling?.classList.remove('hidden');
+                          }}
+                        />
+                        <span className="text-orange-700 text-3xl font-bold hidden">श्री</span>
+                      </div>
+                                           <h1 className="text-sm font-bold text-orange-800 mb-1 leading-tight text-center">
+                        श्री राधे कृष्ण<br />सेवा संस्थान
+                      </h1>
+                      <p className="text-xs text-orange-600 font-medium text-center mb-2">Shri Radhe Krishna<br />Seva Sansthan</p>
+                      
+                      {/* Member ID - Positioned just below trust name */}
+                      <div className="bg-orange-500/20 backdrop-blur-sm border border-orange-400/30 rounded-lg p-2 w-full">
+                        <p className="text-xs text-orange-700 font-semibold text-center mb-1">Member ID</p>
+                        <p className="text-sm font-bold text-orange-800 text-center tracking-wider">{memberData.memberId}</p>
+                      </div>
                    </div>
 
                   {/* Right Section - Member Info */}
                   <div className="w-3/5 flex flex-col justify-between p-4">
                                          {/* Member Photo and Name */}
-                     <div className="flex items-center space-x-3 mb-4">
-                       {memberData.photo ? (
-                         <div className="relative">
-                           <img 
-                             src={memberData.photo} 
-                             alt={memberData.name}
-                             className="w-16 h-16 rounded-2xl border-2 border-orange-400/30 object-cover shadow-lg"
-                           />
-                           <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
-                             <div className="w-2 h-2 bg-white rounded-full"></div>
-                           </div>
-                         </div>
-                       ) : (
-                         <div className="w-16 h-16 rounded-2xl border-2 border-orange-400/30 bg-orange-500/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                           <User className="w-8 h-8 text-orange-700" />
-                         </div>
-                       )}
-                       <div>
+                     <div className="flex items-center space-x-3 mb-3">
+                                               {memberData.photo ? (
+                          <div className="relative">
+                            <img 
+                              src={memberData.photo} 
+                              alt={memberData.name}
+                              className="w-16 h-16 rounded-full border-2 border-orange-400/30 object-cover shadow-lg"
+                            />
+                            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                              <div className="w-2 h-2 bg-white rounded-full"></div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-16 h-16 rounded-full border-2 border-orange-400/30 bg-orange-500/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                            <User className="w-8 h-8 text-orange-700" />
+                          </div>
+                        )}
+                       <div className="flex-1">
                          <h2 className="text-lg font-bold text-gray-800 mb-1 leading-tight">{memberData.name}</h2>
-                         <div className="bg-orange-500/20 backdrop-blur-sm text-orange-700 px-3 py-1 rounded-full text-xs font-semibold border border-orange-400/30">
+                         <div className="bg-orange-500/20 backdrop-blur-sm text-orange-700 px-3 py-1 rounded-full text-xs font-semibold border border-orange-400/30 inline-block">
                            सदस्य
                          </div>
                        </div>
                      </div>
 
                                          {/* Member Details */}
-                     <div className="space-y-2">
-                       <div className="flex items-center space-x-2">
-                         <div className="w-6 h-6 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                           <Phone className="w-3 h-3 text-orange-700" />
+                     <div className="space-y-2.5">
+                       <div className="flex items-center space-x-3">
+                         <div className="w-7 h-7 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center flex-shrink-0">
+                           <Phone className="w-3.5 h-3.5 text-orange-700" />
                          </div>
-                         <div>
+                         <div className="flex-1 min-w-0">
                            <p className="text-xs text-gray-600 font-medium">मोबाइल</p>
-                           <p className="text-sm text-gray-800 font-semibold">{memberData.mobile}</p>
+                           <p className="text-sm text-gray-800 font-semibold truncate">{memberData.mobile}</p>
                          </div>
                        </div>
                        
-                       <div className="flex items-center space-x-2">
-                         <div className="w-6 h-6 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                           <MapPin className="w-3 h-3 text-orange-700" />
+                       <div className="flex items-center space-x-3">
+                         <div className="w-7 h-7 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center flex-shrink-0">
+                           <MapPin className="w-3.5 h-3.5 text-orange-700" />
                          </div>
-                         <div>
+                         <div className="flex-1 min-w-0">
                            <p className="text-xs text-gray-600 font-medium">स्थान</p>
-                           <p className="text-sm text-gray-800 font-semibold">{memberData.location}</p>
+                           <p className="text-sm text-gray-800 font-semibold truncate">{memberData.location}</p>
                          </div>
                        </div>
                        
-                       <div className="flex items-center space-x-2">
-                         <div className="w-6 h-6 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                           <Calendar className="w-3 h-3 text-orange-700" />
+                       <div className="flex items-center space-x-3">
+                         <div className="w-7 h-7 bg-orange-500/20 backdrop-blur-sm rounded-full flex items-center justify-center flex-shrink-0">
+                           <Calendar className="w-3.5 h-3.5 text-orange-700" />
                          </div>
-                         <div>
+                         <div className="flex-1 min-w-0">
                            <p className="text-xs text-gray-600 font-medium">तिथि</p>
-                           <p className="text-sm text-gray-800 font-semibold">{formatDate(memberData.createdAt)}</p>
+                           <p className="text-sm text-gray-800 font-semibold truncate">{formatDate(memberData.createdAt)}</p>
                          </div>
                        </div>
                      </div>
 
                                          {/* Footer */}
-                     <div className="mt-3">
-                       <p className="text-xs text-gray-500 mb-2 font-medium">Member ID: {memberData.memberId}</p>
-                       <div className="flex justify-center items-center space-x-2">
-                         <span className="text-xl">🕉️</span>
-                         <span className="text-sm text-orange-700 font-bold">जय श्री राधे कृष्ण</span>
-                         <span className="text-xl">🕉️</span>
-                       </div>
-                     </div>
+                                           <div className="mt-3">
+                        <div className="flex justify-center items-center space-x-2">
+                          <span className="text-xl">🕉️</span>
+                          <span className="text-sm text-orange-700 font-bold">जय श्री राधे कृष्ण</span>
+                          <span className="text-xl">🕉️</span>
+                        </div>
+                      </div>
                   </div>
                 </div>
 

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Upload, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import { TrustMemberCard } from "@/components/TrustMemberCard";
+import MemberIdGenerator from "@/utils/memberIdGenerator";
 
 export function JoinTrust() {
   const [formData, setFormData] = useState({
@@ -84,7 +85,7 @@ export function JoinTrust() {
         gender: formData.gender,
         photo: formData.photo ? URL.createObjectURL(formData.photo) : undefined,
         createdAt: new Date().toISOString(),
-        memberId: `TRUST${Date.now()}`
+        memberId: MemberIdGenerator.generateNextId()
       };
       
       setMemberData(newMemberData);

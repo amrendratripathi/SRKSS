@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Upload, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import { TrustMemberCard } from "@/components/TrustMemberCard";
-import MemberIdGenerator from "@/utils/memberIdGenerator";
+// Member IDs are now static per request
 
 export function JoinTrust() {
   const [formData, setFormData] = useState({
@@ -85,8 +84,11 @@ export function JoinTrust() {
         gender: formData.gender,
         photo: formData.photo ? URL.createObjectURL(formData.photo) : undefined,
         createdAt: new Date().toISOString(),
-        memberId: MemberIdGenerator.generateNextId()
+        memberId: 'SRKSS2025'
       };
+      
+      console.log('Created member data:', newMemberData);
+      console.log('Photo URL:', newMemberData.photo);
       
       setMemberData(newMemberData);
       setShowTrustCard(true);

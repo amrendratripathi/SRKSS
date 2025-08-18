@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, Mail } from "lucide-react";
+import { Phone, Mail, Quote } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export function FounderSection() {
@@ -99,6 +99,48 @@ export function FounderSection() {
               </div>
             </CardContent>
           </Card>
+
+          {/* अध्यक्ष का संदेश */}
+          <section id="president-message" className="mt-10">
+            <Card className="shadow-divine overflow-hidden">
+              <CardContent className="p-0">
+                <div className="relative p-6 md:p-10 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+                  <div className="absolute -top-4 -left-2 md:-top-2 md:left-4 opacity-10">
+                    <Quote className="w-24 h-24 md:w-28 md:h-28 text-primary" />
+                  </div>
+
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground text-center">
+                    अध्यक्ष का संदेश
+                  </h3>
+                  <div className="mx-auto mt-3 mb-6 h-1 w-24 bg-gradient-to-r from-primary/70 to-secondary/70 rounded-full" />
+
+                  <div className="space-y-4 text-base leading-relaxed text-foreground/80 max-w-3xl mx-auto">
+                    <p>
+                      श्री राधाकृष्ण सेवा संस्थान अपने समस्त सेवाभावी परिवार एवं सहयोगियों को हृदय से कोटि-कोटि धन्यवाद प्रकट करता है। संस्था समाज के उत्थान तथा जनजागरण के कार्यों में निरंतर संलग्न है। सेवा और समाज को जोड़ने की इस सतत यात्रा में हमारा उद्देश्य केवल आयोजन भर नहीं, बल्कि समाज को नई दिशा प्रदान करने का है।
+                    </p>
+                    <p>
+                      संस्थान का संकल्प है कि धार्मिक एवं सामाजिक कार्यों में सहयोग और सहभागिता के माध्यम से एक सुंदर, सशक्त एवं संस्कारित समाज का निर्माण किया जाए। संस्थान के प्रयास प्रेरणा, आध्यात्मिकता, भक्ति, जागरूकता और मानवीय मूल्यों को आधार बनाकर संपूर्ण मानवता में चेतना जागृत करने के लिए समर्पित हैं।
+                    </p>
+                    <p>
+                      हमारा आग्रह है कि प्रत्येक सदस्य समाजोत्थान एवं संस्थान की गतिविधियों में निष्ठा और सक्रियता बनाए रखे।
+                    </p>
+                    <p>
+                      हमें पूर्ण विश्वास है कि हम सब मिलकर समाज को जागरूक बनाने, धार्मिक एवं आध्यात्मिक भावनाओं को प्रबल करने तथा सतत विकास की साधना में अवश्य सफल होंगे।
+                    </p>
+                  </div>
+
+                  <div className="mt-8 max-w-3xl mx-auto">
+                    <div className="flex items-end justify-end">
+                      <div className="text-right">
+                        <p className="font-semibold text-foreground">Mr Mahendra Ram Tripathi</p>
+                        <p className="text-sm text-primary font-medium">संस्थापक एवं अध्यक्ष</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
         </div>
       </div>
     </section>

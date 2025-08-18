@@ -1,7 +1,7 @@
 import { Phone } from "lucide-react";
 
 export function FloatingContactButtons() {
-  const phoneNumber = "+919572144482";
+  const phoneNumber = "+919263955825";
   const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent('नमस्ते! श्री राधे कृष्ण सेवा संस्थान से संपर्क करना चाहता/चाहती हूँ।')}`;
 
   return (

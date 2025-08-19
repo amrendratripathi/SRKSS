@@ -44,8 +44,12 @@ export function JoinTrust() {
   };
 
   const handlePayment = () => {
-    const upiUrl = "upi://pay?pa=9572144482@ibl&pn=Mahendra&cu=INR";
-    window.open(upiUrl, "_blank");
+    const payeeVpa = "9572144482@ibl";
+    const payeeName = "SRKSS";
+    const transactionNote = "सदस्यता शुल्क";
+    const currency = "INR";
+    const upiUrl = `upi://pay?pa=${encodeURIComponent(payeeVpa)}&pn=${encodeURIComponent(payeeName)}&tn=${encodeURIComponent(transactionNote)}&cu=${currency}`;
+    window.location.href = upiUrl;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -285,7 +289,7 @@ export function JoinTrust() {
                       💳 भुगतान करें
                     </Button>
                     <p className="text-sm text-muted-foreground">
-                      UPI ID: rajjubabu531@okhdfcbank
+                      UPI ID: 9572144482@ibl
                     </p>
                   </div>
                 </div>

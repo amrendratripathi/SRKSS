@@ -20,6 +20,7 @@ interface TrustMemberCardProps {
 
 export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
   const [isDownloading, setIsDownloading] = useState(false);
+  const [imageLoadError, setImageLoadError] = useState(false);
   
   // Debug logging
   console.log('TrustMemberCard - memberData:', memberData);
@@ -55,8 +56,24 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
       const element = document.getElementById('trust-card');
       if (!element) return;
 
-      // Wait a bit for any animations to complete
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Wait longer for images to fully load and stabilize
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Preload and ensure all images are ready
+      const images = element.querySelectorAll('img');
+      await Promise.all(
+        Array.from(images).map((img) => {
+          return new Promise((resolve) => {
+            if (img.complete) {
+              resolve(true);
+            } else {
+              img.onload = () => resolve(true);
+              img.onerror = () => resolve(false);
+            }
+          });
+        })
+      );
+      
       // Ensure web fonts are fully loaded before rendering
       try {
         // @ts-ignore
@@ -65,6 +82,9 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
           await document.fonts.ready;
         }
       } catch {}
+      
+      // Additional wait to ensure DOM is stable
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       const canvas = await (html2canvas as any)(element, {
         background: '#ffffff',
@@ -162,10 +182,14 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
                            src={memberData.photo} 
                            alt={memberData.name}
                            className="w-16 h-16 rounded-full border-2 border-orange-400/30 object-cover shadow-lg"
-                           onLoad={() => console.log('Photo loaded successfully:', memberData.photo)}
+                           onLoad={() => {
+                             console.log('Photo loaded successfully:', memberData.photo);
+                             setImageLoadError(false);
+                           }}
                            onError={(e) => {
                              console.log('Photo load error:', e);
                              console.log('Failed photo URL:', memberData.photo);
+                             setImageLoadError(true);
                              const target = e.target as HTMLImageElement;
                              target.style.display = 'none';
                            }}
@@ -182,6 +206,13 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
                          </div>
                        </div>
                      ) : (
+                       <div className="w-16 h-16 rounded-full border-2 border-orange-400/30 bg-orange-500/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                         <User className="w-8 h-8 text-orange-700" />
+                       </div>
+                     )}
+                     
+                     {/* Fallback for when image fails during download */}
+                     {imageLoadError && (
                        <div className="w-16 h-16 rounded-full border-2 border-orange-400/30 bg-orange-500/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
                          <User className="w-8 h-8 text-orange-700" />
                        </div>

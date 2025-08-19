@@ -48,8 +48,48 @@ export function JoinTrust() {
     const payeeName = "SRKSS";
     const transactionNote = "सदस्यता शुल्क";
     const currency = "INR";
-    const upiUrl = `upi://pay?pa=${encodeURIComponent(payeeVpa)}&pn=${encodeURIComponent(payeeName)}&tn=${encodeURIComponent(transactionNote)}&cu=${currency}`;
+
+    const params = new URLSearchParams({
+      pa: payeeVpa,
+      pn: payeeName,
+      tn: transactionNote,
+      cu: currency,
+    });
+
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const upiUrl = `upi://pay?${params.toString()}`;
+
+    // Primary attempt: generic UPI deep link (should open app chooser)
     window.location.href = upiUrl;
+
+    // Android fallback: intent-based deep links to improve reliability
+    if (isAndroid) {
+      const chooserIntent = `intent://pay?${params.toString()}#Intent;scheme=upi;end`;
+      const gpayIntent = `intent://pay?${params.toString()}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
+      const phonepeIntent = `intent://pay?${params.toString()}#Intent;scheme=upi;package=com.phonepe.app;end`;
+      const paytmIntent = `intent://pay?${params.toString()}#Intent;scheme=upi;package=net.one97.paytm;end`;
+
+      const startTime = Date.now();
+      window.setTimeout(() => {
+        // If we are still here shortly after trying UPI link, try chooser intent
+        if (Date.now() - startTime < 2200) {
+          window.location.href = chooserIntent;
+
+          // Staggered package-specific fallbacks
+          window.setTimeout(() => {
+            window.location.href = gpayIntent;
+          }, 1200);
+
+          window.setTimeout(() => {
+            window.location.href = phonepeIntent;
+          }, 2400);
+
+          window.setTimeout(() => {
+            window.location.href = paytmIntent;
+          }, 3600);
+        }
+      }, 1400);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -288,9 +328,10 @@ export function JoinTrust() {
                     >
                       💳 भुगतान करें
                     </Button>
-                    <p className="text-sm text-muted-foreground">
-                      UPI ID: 9572144482@ibl
-                    </p>
+                    <div className="text-sm text-muted-foreground space-y-1">
+                      <p>UPI ID: 9572144482@ibl</p>
+                      <p>मोबाइल: 9572144482</p>
+                    </div>
                   </div>
                 </div>
 

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Upload, Send } from "lucide-react";
+import { ArrowLeft, Upload, Send, QrCode, Copy } from "lucide-react";
+import QRCode from "qrcode";
 import { Link } from "react-router-dom";
 import { TrustMemberCard } from "@/components/TrustMemberCard";
 // Member IDs are now static per request
@@ -23,6 +24,7 @@ export function JoinTrust() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showTrustCard, setShowTrustCard] = useState(false);
   const [memberData, setMemberData] = useState<any>(null);
+  const [upiQr, setUpiQr] = useState<string>("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -43,52 +45,52 @@ export function JoinTrust() {
     }
   };
 
-  const handlePayment = () => {
+  const buildUpiUrl = () => {
     const payeeVpa = "9572144482@ibl";
-    const payeeName = "SRKSS";
-    const transactionNote = "सदस्यता शुल्क";
-    const currency = "INR";
+    const params = new URLSearchParams({ pa: payeeVpa, cu: "INR" });
+    return `upi://pay?${params.toString()}`;
+  };
 
-    const params = new URLSearchParams({
-      pa: payeeVpa,
-      pn: payeeName,
-      tn: transactionNote,
-      cu: currency,
-    });
-
+  const handlePayment = () => {
+    const upiUrl = buildUpiUrl();
     const isAndroid = /Android/i.test(navigator.userAgent);
-    const upiUrl = `upi://pay?${params.toString()}`;
-
-    // Primary attempt: generic UPI deep link (should open app chooser)
+    // Primary attempt: generic UPI deep link (opens app chooser on supported devices)
     window.location.href = upiUrl;
 
     // Android fallback: intent-based deep links to improve reliability
     if (isAndroid) {
-      const chooserIntent = `intent://pay?${params.toString()}#Intent;scheme=upi;end`;
-      const gpayIntent = `intent://pay?${params.toString()}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
-      const phonepeIntent = `intent://pay?${params.toString()}#Intent;scheme=upi;package=com.phonepe.app;end`;
-      const paytmIntent = `intent://pay?${params.toString()}#Intent;scheme=upi;package=net.one97.paytm;end`;
+      const qs = upiUrl.replace("upi://pay?", "");
+      const chooserIntent = `intent://pay?${qs}#Intent;scheme=upi;end`;
+      const gpayIntent = `intent://pay?${qs}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
+      const phonepeIntent = `intent://pay?${qs}#Intent;scheme=upi;package=com.phonepe.app;end`;
+      const paytmIntent = `intent://pay?${qs}#Intent;scheme=upi;package=net.one97.paytm;end`;
 
       const startTime = Date.now();
       window.setTimeout(() => {
-        // If we are still here shortly after trying UPI link, try chooser intent
         if (Date.now() - startTime < 2200) {
           window.location.href = chooserIntent;
-
-          // Staggered package-specific fallbacks
-          window.setTimeout(() => {
-            window.location.href = gpayIntent;
-          }, 1200);
-
-          window.setTimeout(() => {
-            window.location.href = phonepeIntent;
-          }, 2400);
-
-          window.setTimeout(() => {
-            window.location.href = paytmIntent;
-          }, 3600);
+          window.setTimeout(() => { window.location.href = gpayIntent; }, 1200);
+          window.setTimeout(() => { window.location.href = phonepeIntent; }, 2400);
+          window.setTimeout(() => { window.location.href = paytmIntent; }, 3600);
         }
       }, 1400);
+    }
+  };
+
+  // Pre-generate a QR code for the UPI link so users can scan if deep-link fails
+  useEffect(() => {
+    const upiUrl = buildUpiUrl();
+    QRCode.toDataURL(upiUrl, { margin: 1, scale: 5 })
+      .then(setUpiQr)
+      .catch(() => setUpiQr(""));
+  }, []);
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("कॉपी हो गया");
+    } catch {
+      alert(text);
     }
   };
 
@@ -329,9 +331,27 @@ export function JoinTrust() {
                       💳 भुगतान करें
                     </Button>
                     <div className="text-sm text-muted-foreground space-y-1">
-                      <p>UPI ID: 9572144482@ibl</p>
-                      <p>मोबाइल: 9572144482</p>
+                      <p>UPI ID: 9572144482@ibl
+                        <button type="button" className="ml-2 text-primary underline" onClick={() => copyToClipboard("9572144482@ibl")}>
+                          <span className="inline-flex items-center"><Copy className="h-4 w-4 mr-1" /> कॉपी करें</span>
+                        </button>
+                      </p>
+                      <p>मोबाइल: 9572144482
+                        <button type="button" className="ml-2 text-primary underline" onClick={() => copyToClipboard("9572144482")}>
+                          <span className="inline-flex items-center"><Copy className="h-4 w-4 mr-1" /> कॉपी करें</span>
+                        </button>
+                      </p>
                     </div>
+
+                    {upiQr && (
+                      <div className="mt-4 inline-flex flex-col items-center">
+                        <img src={upiQr} alt="UPI QR" className="h-44 w-44 border rounded-md bg-white p-2" />
+                        <div className="mt-2 text-xs text-muted-foreground inline-flex items-center">
+                          <QrCode className="h-4 w-4 mr-1" />
+                          स्कैन कर के भुगतान करें
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Upload, Send, QrCode, Copy } from "lucide-react";
+import { ArrowLeft, Upload, Send, QrCode, Copy, Download } from "lucide-react";
 import QRCode from "qrcode";
 import { Link } from "react-router-dom";
 import { TrustMemberCard } from "@/components/TrustMemberCard";
@@ -51,31 +51,7 @@ export function JoinTrust() {
     return `upi://pay?${params.toString()}`;
   };
 
-  const handlePayment = () => {
-    const upiUrl = buildUpiUrl();
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    // Primary attempt: generic UPI deep link (opens app chooser on supported devices)
-    window.location.href = upiUrl;
-
-    // Android fallback: intent-based deep links to improve reliability
-    if (isAndroid) {
-      const qs = upiUrl.replace("upi://pay?", "");
-      const chooserIntent = `intent://pay?${qs}#Intent;scheme=upi;end`;
-      const gpayIntent = `intent://pay?${qs}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
-      const phonepeIntent = `intent://pay?${qs}#Intent;scheme=upi;package=com.phonepe.app;end`;
-      const paytmIntent = `intent://pay?${qs}#Intent;scheme=upi;package=net.one97.paytm;end`;
-
-      const startTime = Date.now();
-      window.setTimeout(() => {
-        if (Date.now() - startTime < 2200) {
-          window.location.href = chooserIntent;
-          window.setTimeout(() => { window.location.href = gpayIntent; }, 1200);
-          window.setTimeout(() => { window.location.href = phonepeIntent; }, 2400);
-          window.setTimeout(() => { window.location.href = paytmIntent; }, 3600);
-        }
-      }, 1400);
-    }
-  };
+  
 
   // Pre-generate a QR code for the UPI link so users can scan if deep-link fails
   useEffect(() => {
@@ -92,6 +68,16 @@ export function JoinTrust() {
     } catch {
       alert(text);
     }
+  };
+  
+  const downloadQrCode = () => {
+    if (!upiQr) return;
+    const link = document.createElement("a");
+    link.href = upiQr;
+    link.download = "upi-qr.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -318,27 +304,10 @@ export function JoinTrust() {
                   </h3>
                   
                   <div className="text-center space-y-2">
-                    <p className="text-muted-foreground">
-                      कृपया नीचे दिए गए बटन पर क्लिक करके भुगतान करें
-                    </p>
-                    <Button
-                      type="button"
-                      onClick={handlePayment}
-                      variant="spiritual"
-                      size="lg"
-                      className="w-full md:w-auto"
-                    >
-                      💳 भुगतान करें
-                    </Button>
                     <div className="text-sm text-muted-foreground space-y-1">
                       <p>UPI ID: 9572144482@ibl
-                        <button type="button" className="ml-2 text-primary underline" onClick={() => copyToClipboard("9572144482@ibl")}>
-                          <span className="inline-flex items-center"><Copy className="h-4 w-4 mr-1" /> कॉपी करें</span>
-                        </button>
-                      </p>
-                      <p>मोबाइल: 9572144482
-                        <button type="button" className="ml-2 text-primary underline" onClick={() => copyToClipboard("9572144482")}>
-                          <span className="inline-flex items-center"><Copy className="h-4 w-4 mr-1" /> कॉपी करें</span>
+                        <button type="button" className="ml-2 inline-flex items-center px-3 py-2 rounded-md border border-primary text-primary hover:bg-primary/10 text-sm md:text-base font-medium" onClick={() => copyToClipboard("9572144482@ibl")}>
+                          <span className="inline-flex items-center"><Copy className="h-5 w-5 mr-2" /> कॉपी करें</span>
                         </button>
                       </p>
                     </div>
@@ -350,6 +319,9 @@ export function JoinTrust() {
                           <QrCode className="h-4 w-4 mr-1" />
                           स्कैन कर के भुगतान करें
                         </div>
+                        <Button type="button" variant="outline" size="sm" className="mt-3" onClick={downloadQrCode}>
+                          <Download className="h-4 w-4 mr-2" /> QR डाउनलोड करें
+                        </Button>
                       </div>
                     )}
                   </div>

@@ -1,8 +1,28 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, Users, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function HeroSection() {
+  const [devoteeCount, setDevoteeCount] = useState(0);
+
+  useEffect(() => {
+    const target = 2000;
+    const durationMs = 1500;
+    const start = performance.now();
+    let rafId: number;
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / durationMs, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      const current = Math.floor(eased * target);
+      setDevoteeCount(current);
+      if (progress < 1) rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
   return (
     <section className="bg-gradient-hero py-16 md:py-24">
       <div className="container mx-auto px-4 text-center">
@@ -40,7 +60,7 @@ export function HeroSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div className="bg-card rounded-lg p-6 shadow-soft">
               <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">2000+ श्रद्धालु</h3>
+              <h3 className="text-xl font-semibold mb-2">{devoteeCount.toLocaleString()}+ श्रद्धालु</h3>
               <p className="text-muted-foreground">हमारी भागवत कथा में भाग लेते हैं</p>
             </div>
             

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, Users, HandHeart, Star } from "lucide-react";
+import { Heart, Users, HandHeart, Star, Image } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function JoinUsSection() {
   return (
@@ -89,16 +90,11 @@ export function JoinUsSection() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/join-trust"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button variant="spiritual" size="lg" className="font-semibold">
-                    <Heart className="h-5 w-5 mr-2" />
-                    अभी जुड़ें.
-                  </Button>
-                </a>
+                <Link to="/hamara-karya">
+                              <Button variant="spiritual" size="lg">
+                                हमारा कार्य
+                              </Button>
+                  </Link>
                 <a
                   href="mailto:tiwarimahendra1974@gmail.com"
                   target="_blank"

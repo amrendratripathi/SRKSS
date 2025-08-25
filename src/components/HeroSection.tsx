@@ -24,7 +24,12 @@ export function HeroSection() {
     return () => cancelAnimationFrame(rafId);
   }, []);
   return (
-    <section className="bg-gradient-hero py-16 md:py-24">
+    <section className="relative bg-gradient-hero py-16 md:py-24 overflow-hidden">
+      {/* Background image with low opacity */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[url('/lovable-uploads/radhakrishna.png')] bg-cover bg-center opacity-10"
+      />
       <div className="container mx-auto px-4 text-center">
         <div className="max-w-4xl mx-auto">
                      <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6" style={{ 

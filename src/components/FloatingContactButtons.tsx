@@ -2,7 +2,7 @@ import { Phone } from "lucide-react";
 
 export function FloatingContactButtons() {
   const phoneNumber = "+919263955825";
-  const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent('नमस्ते! श्री राधे कृष्ण सेवा संस्थान से संपर्क करना चाहता/चाहती हूँ।')}`;
+  const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent('नमस्ते! श्री राधे कृष्ण सेवा संस्थान से संपर्क करना चाहता हूँ।')}`;
 
   return (
     <div className="fixed right-3 md:right-5 top-1/2 -translate-y-1/2 z-50 select-none">

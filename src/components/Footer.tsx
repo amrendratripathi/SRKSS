@@ -1,4 +1,4 @@
-import { Phone, Mail, Youtube, MapPin } from "lucide-react";
+import { Phone, Mail, Youtube, MapPin, Linkedin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -88,6 +88,18 @@ export function Footer() {
           <p className="text-sm opacity-80">
             © 2024 श्री राधे कृष्ण सेवा संस्थान। सभी अधिकार सुरक्षित।
           </p>
+          <div className="mt-3 flex items-center justify-center gap-2 text-sm opacity-80">
+            <span>Created by: Amrendra Tripathi</span>
+            <a
+              href="https://www.linkedin.com/in/amrendra-tripathi-67b906279/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Amrendra Tripathi on LinkedIn"
+              className="hover:text-primary transition-colors"
+            >
+              <Linkedin className="h-5 w-5" />
+            </a>
+          </div>
           <p className="text-xs opacity-60 mt-2">
             श्री राधे राधे | हरे कृष्ण हरे कृष्ण कृष्ण कृष्ण हरे हरे
           </p>

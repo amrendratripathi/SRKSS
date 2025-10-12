@@ -2,9 +2,11 @@ import { ArrowLeft, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function HamaraKarya() {
   const [selectedImage, setSelectedImage] = useState<{ src: string; title: string } | null>(null);
+  const { user } = useAuth();
 
   const works = [
     {
@@ -108,11 +110,13 @@ export function HamaraKarya() {
                 <p className="text-muted-foreground mb-6">
                   इन सेवा कार्यों में अपना योगदान दें और समाज के उत्थान में भागीदार बनें।
                 </p>
-                <Link to="/join-trust">
-                  <button className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
-                    संस्थान से जुड़ें
-                  </button>
-                </Link>
+                {user && (
+                  <Link to="/join-trust">
+                    <button className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                      संस्थान से जुड़ें
+                    </button>
+                  </Link>
+                )}
               </CardContent>
             </Card>
           </div>

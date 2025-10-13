@@ -21,7 +21,7 @@ The admin login is now configured to work without MongoDB for testing purposes.
    npx vercel dev
    ```
 
-3. Open your browser and go to `https://srkss-backend.onrender.com`
+3. Open your browser and go to `http://localhost:3000`
 
 4. Navigate to `/login` and use the admin credentials above.
 
@@ -44,7 +44,7 @@ To see trust members data, you need to set up MongoDB:
 1. Create a `.env` file in the root directory with:
    ```
    MONGODB_URI=mongodb+srv://your-username:your-password@your-cluster.mongodb.net/srkss?retryWrites=true&w=majority
-   VITE_API_BASE=https://srkss-backend.onrender.com
+   VITE_API_BASE=http://localhost:3000
    ```
 
 2. Replace the MongoDB URI with your actual connection string.

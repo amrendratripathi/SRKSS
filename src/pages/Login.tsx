@@ -16,29 +16,63 @@ export default function Login() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!email || !password) {
+      toast({ 
+        title: "Missing required fields", 
+        description: "Please enter both email and password",
+        variant: "destructive" 
+      });
+      return;
+    }
+
     setLoading(true);
     try {
-      const data = await fetch("https://srkss-backend.onrender.com/api/login", {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+      const response = await fetch("https://srkss-backend-1.onrender.com/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
       
-      if (!data.ok) {
-        throw new Error("Login failed")
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: "Login failed" }));
+        throw new Error(errorData.message || "Login failed");
       }
       
-      const response = await data.json();
-      login(response.user);
-      toast({ title: response.message || "Logged in successfully" });
+      const data = await response.json();
       
-      if (response.user.role === "admin") {
+      if (!data.user) {
+        throw new Error("Invalid response from server");
+      }
+
+      // Store user data
+      login(data.user);
+      
+      // Show success message
+      toast({ 
+        title: "Login successful", 
+        description: `Welcome back, ${data.user.name}!`
+      });
+      
+      // Redirect based on role
+      if (data.user.role === "admin") {
         navigate("/admin");
-      } else if (response.user.role === "user") {
+      } else {
         navigate("/user");
       }
     } catch (err: any) {
-      toast({ title: "Login error", description: err.message, variant: "destructive" });
+      toast({ 
+        title: "Login failed", 
+        description: err.message || "Invalid email or password",
+        variant: "destructive" 
+      });
     } finally {
       setLoading(false);
     }

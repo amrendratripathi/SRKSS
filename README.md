@@ -36,7 +36,7 @@ npm i -g vercel
 vercel dev
 ```
 
-Open `https://srkss-backend.onrender.com`. Frontend calls to `/api/...` will work via the hosted backend. If you use `npm run dev` (Vite at 5173), set `VITE_API_BASE=https://srkss-backend.onrender.com` and the frontend will talk to the hosted API.
+Open `http://localhost:3000`. Frontend calls to `/api/...` will work via the local serverless runtime. If you use `npm run dev` (Vite at 5173), set `VITE_API_BASE=http://localhost:3000` and the frontend will talk to the Vercel dev API.
 
 ### Auth API endpoints
 

@@ -40,7 +40,7 @@ export default function Admin() {
     if (!loading) setLoading(true);
     try {
       // Fetch registered users
-      const res = await fetch("https://srkss-backend.onrender.com/api/users");
+      const res = await fetch("http://localhost:3000/api/users");
       if (!res.ok) throw new Error("Failed to load users data");
       const data = await res.json();
       if (data.users) {

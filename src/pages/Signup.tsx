@@ -61,7 +61,10 @@ export default function Signup() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://srkss-backend.onrender.com/api/register", {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+      const response = await fetch("https://srkss-backend-1.onrender.com/api/register", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json"
@@ -71,11 +74,14 @@ export default function Signup() {
           gender,
           email,
           password
-        })
+        }),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
       
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({ message: "Registration failed" }));
         throw new Error(errorData.message || "Registration failed");
       }
       

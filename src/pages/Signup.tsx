@@ -64,7 +64,7 @@ export default function Signup() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-      const response = await fetch("https://srkss-backend-1.onrender.com/api/register", {
+      const response = await fetch("https://srkss-backend-2.onrender.com/api/register", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json"

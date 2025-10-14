@@ -59,11 +59,11 @@ export default function Admin() {
     } catch (error) {
       console.error("Failed to load data:", error);
       // Don't clear existing data on error
-      toast({
-        title: "Error loading data",
-        description: "Failed to refresh the data. Previous data is still shown.",
-        variant: "destructive"
-      });
+      // toast({
+      //   title: "Error loading data",
+      //   description: "Failed to refresh the data. Previous data is still shown.",
+      //   variant: "destructive"
+      // });
     } finally {
       setLoading(false);
       setRefreshing(false);

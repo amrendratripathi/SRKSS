@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, Users, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
 
 export function HeroSection() {
   const [devoteeCount, setDevoteeCount] = useState(0);
-  const { user } = useAuth();
 
   useEffect(() => {
     const target = 2000;
@@ -85,13 +83,11 @@ export function HeroSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {user && (
-              <Link to="/join-trust">
-                <Button variant="spiritual" size="lg">
-                  संस्थान से जुड़ें
-                </Button>
-              </Link>
-            )}
+            <Link to="/join-trust">
+              <Button variant="spiritual" size="lg">
+                संस्थान से जुड़ें
+              </Button>
+            </Link>
             <a
               href="https://www.youtube.com/@shriradhekrishnasewasansth2592"
               target="_blank"

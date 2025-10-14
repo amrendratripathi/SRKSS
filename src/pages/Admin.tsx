@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, UserCheck, Search, Download, RefreshCw } from "lucide-react";
+import { Users, UserCheck, Search, Download, RefreshCw, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
@@ -128,10 +129,18 @@ export default function Admin() {
             <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
             <p className="text-muted-foreground">Welcome back, {user?.email}</p>
           </div>
-          <Button onClick={handleRefresh} disabled={refreshing} variant="outline">
-            <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
+          <div className="flex items-center gap-2">
+            <Link to="/#hero">
+              <Button variant="secondary">
+                <Home className="h-4 w-4 mr-2" />
+                Home
+              </Button>
+            </Link>
+            <Button onClick={handleRefresh} disabled={refreshing} variant="outline">
+              <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+          </div>
         </div>
       </div>
 

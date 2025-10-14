@@ -24,7 +24,7 @@ export function HeroSection() {
     return () => cancelAnimationFrame(rafId);
   }, []);
   return (
-    <section className="relative bg-gradient-hero py-16 md:py-24 overflow-hidden">
+    <section id="hero" className="relative bg-gradient-hero py-16 md:py-24 overflow-hidden">
       {/* Background image with low opacity */}
       <div
         aria-hidden

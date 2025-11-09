@@ -32,6 +32,18 @@ const teamMembers: TeamMember[] = [
     role: "संयोजक–कार्यकारी सदस्य",
     alt: "संयोजक–कार्यकारी सदस्य",
   },
+  {
+    imageSrc: "/lovable-uploads/karyakarni_sadasya.jpg",
+    name: "Shri Manglesh Dhar Dwivedi",
+    role: "कार्यकारिणी संयोजक",
+    alt: "कार्यकारिणी संयोजक",
+  },
+  {
+    imageSrc: "/lovable-uploads/kathavachak.jpg",
+    name: "Acharya Sivendra Dhar Dwivedi",
+    role: "प्रमुख कथावाचक",
+    alt: "प्रमुख कथावाचक",
+  },
 ];
 
 export function TeamSection() {

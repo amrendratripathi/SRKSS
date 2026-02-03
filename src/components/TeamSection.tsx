@@ -34,9 +34,9 @@ const teamMembers: TeamMember[] = [
   },
   {
     imageSrc: "/lovable-uploads/karyakarni_sadasya.jpg",
-    name: "Shri Manglesh Dhar Dwivedi",
-    role: "कार्यकारिणी संयोजक",
-    alt: "कार्यकारिणी संयोजक",
+    name: "Shri Namo Narayan Mishra",
+    role: "अंकलेश्वर जिला प्रभारी",
+    alt: "अंकलेश्वर जिला प्रभारी",
   },
   {
     imageSrc: "/lovable-uploads/kathavachak.jpg",

@@ -1,4 +1,4 @@
-import { getMongoClient } from "../_db";
+import { getMongoClient } from "../_db.js";
 
 export default async function handler(_req: Request): Promise<Response> {
   try {
@@ -41,6 +41,5 @@ export default async function handler(_req: Request): Promise<Response> {
     });
   }
 }
-
 
 

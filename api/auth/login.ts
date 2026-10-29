@@ -1,4 +1,4 @@
-import { getMongoClient } from "../_db";
+import { getMongoClient } from "../_db.js";
 import bcrypt from "bcryptjs";
 
 export default async function handler(req: Request): Promise<Response> {
@@ -72,6 +72,5 @@ export default async function handler(req: Request): Promise<Response> {
     });
   }
 }
-
 
 

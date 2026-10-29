@@ -10,12 +10,12 @@ export function Footer() {
             <div className="flex items-center space-x-3 mb-4">
               <img
                 src="/lovable-uploads/trust_logo.png"
-                alt="Shri Radhe Krishna Sewa Sansthan Logo"
+                alt="Shri Sanatan Seva Foundation Sangh Logo"
                 className="h-12 w-12 rounded-full"
               />
               <div>
-                <h3 className="font-bold text-lg">श्री राधे कृष्ण सेवा संस्थान</h3>
-                <p className="text-sm opacity-80">Shri Radhe Krishna Sewa Sansthan</p>
+                <h3 className="font-bold text-lg">श्री सनातन सेवा फाउंडेशन संघ</h3>
+                <p className="text-sm opacity-80">Shri Sanatan Seva Foundation Sangh</p>
               </div>
             </div>
             <p className="text-sm opacity-80 leading-relaxed">
@@ -59,7 +59,7 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-4 w-4 opacity-80" />
-                <span className="text-sm">भारत</span>
+                <span className="text-sm">आवास विकास कॉलोनी, महादेव, झारखंडी गोरखपुर</span>
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ export function Footer() {
 
         <div className="border-t border-background/20 mt-8 pt-8 text-center">
           <p className="text-sm opacity-80">
-            © 2024 श्री राधे कृष्ण सेवा संस्थान। सभी अधिकार सुरक्षित।
+            © 2024 श्री सनातन सेवा फाउंडेशन संघ। सभी अधिकार सुरक्षित।
           </p>
           <div className="mt-3 flex items-center justify-center gap-2 text-sm opacity-80">
             <span>Created by: Amrendra Tripathi</span>
@@ -101,7 +101,7 @@ export function Footer() {
             </a>
           </div>
           <p className="text-xs opacity-60 mt-2">
-            श्री राधे राधे | हरे कृष्ण हरे कृष्ण कृष्ण कृष्ण हरे हरे
+            जय श्री राम
           </p>
         </div>
       </div>

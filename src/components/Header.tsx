@@ -14,14 +14,14 @@ export function Header() {
         <div className="flex items-center space-x-4">
           <img
             src="/lovable-uploads/trust_logo.png"
-            alt="Shri Radhe Krishna Sewa Sansthan Logo"
+            alt="Shri Sanatan Seva Foundation Sangh Logo"
             className="h-16 w-16 rounded-full shadow-divine"
           />
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-foreground">
-              श्री राधे कृष्ण सेवा संस्थान
+              श्री सनातन सेवा फाउंडेशन संघ
             </h1>
-            <p className="text-sm text-muted-foreground">Shri Radhe Krishna Sewa Sansthan</p>
+            <p className="text-sm text-muted-foreground">Shri Sanatan Seva Foundation Sangh</p>
           </div>
         </div>
         

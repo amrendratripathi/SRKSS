@@ -157,7 +157,7 @@ export function JoinTrust() {
           <Card className="mb-8 shadow-divine">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl md:text-3xl font-bold text-foreground">
-                🙏 श्री राधे कृष्ण सेवा संस्थान में आपका स्वागत है 🙏
+                🙏 श्री सनातन सेवा फाउंडेशन संघ में आपका स्वागत है 🙏
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-4">
@@ -168,7 +168,7 @@ export function JoinTrust() {
                 कृपया नीचे दिए गए फॉर्म को भरकर सदस्यता प्राप्त करें और अपने अमूल्य सहयोग से मानवता की सेवा में योगदान दें।
               </p>
               <p className="text-xl font-semibold text-primary">
-                🌸 जय श्री राधे कृष्ण 🌸
+                🌸 जय श्री राम 🌸
               </p>
             </CardContent>
           </Card>

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export function GallerySection() {
   const galleryImages = [
+    "/lovable-uploads/chairman-poster.jpg",
     "/lovable-uploads/0b1705f2-7b0f-41bc-9362-81989ad13e11.png",
     "/lovable-uploads/3033d3f3-d491-4ac2-98b3-cd98de606810.png",
     "/lovable-uploads/b3ffcfaa-da18-40e2-928f-db022edec5f5.png",

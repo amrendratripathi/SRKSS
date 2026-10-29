@@ -51,7 +51,7 @@ export function EventsSection() {
 
               <div className="bg-card rounded-lg p-6 shadow-soft">
                 <h3 className="text-xl font-bold text-foreground mb-4">
-                श्री राधे कृष्ण सेवा संस्थान के कार्य:
+                श्री सनातन सेवा फाउंडेशन संघ के कार्य:
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <ul className="space-y-2 text-muted-foreground">

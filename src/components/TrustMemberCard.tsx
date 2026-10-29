@@ -161,9 +161,9 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
                      <span className="text-orange-700 text-3xl font-bold hidden">श्री</span>
                    </div>
                   <h1 className="text-sm font-bold text-orange-800 mb-1 leading-tight text-center">
-                    श्री राधे कृष्ण<br />सेवा संस्थान
+                    श्री सनातन सेवा<br />फाउंडेशन संघ
                   </h1>
-                  <p className="text-xs text-orange-600 font-medium text-center mb-2">Shri Radhe Krishna<br />Seva Sansthan</p>
+                  <p className="text-xs text-orange-600 font-medium text-center mb-2">Shri Sanatan Seva<br />Foundation Sangh</p>
                   
                   {/* Member ID - Positioned just below trust name */}
                   <div className="bg-orange-500/20 backdrop-blur-sm border border-orange-400/30 rounded-lg p-2 w-full">

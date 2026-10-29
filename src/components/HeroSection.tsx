@@ -32,22 +32,8 @@ export function HeroSection() {
       />
       <div className="container mx-auto px-4 text-center">
         <div className="max-w-4xl mx-auto">
-                     <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6" style={{ 
-             fontFamily: 'Kruti Dev 310 Bold',
-             fontWeight: '900',
-             color: '#ea580c',
-             textShadow: '2px 2px 4px rgba(234,88,12,0.3), 4px 4px 8px rgba(234,88,12,0.2)',
-             letterSpacing: '3px',
-             transform: 'scale(1.05)',
-             filter: 'drop-shadow(0 4px 8px rgba(234,88,12,0.2))',
-             WebkitTextStroke: '1px #92400e',
-             animation: 'elegantGlow 4s ease-in-out infinite alternate',
-             lineHeight: '1.3',
-             textTransform: 'uppercase'
-           }}>
-            श्री सनातन सेवा फाउंडेशन संघ
-            में
-            आपका स्वागत है
+          <h2 className="hero-title mx-auto mb-6 max-w-3xl text-3xl md:text-5xl">
+            श्री सनातन सेवा फाउंडेशन संघ में आपका स्वागत है
           </h2>
           <div className="mb-8 mx-auto max-w-xl">
             <img

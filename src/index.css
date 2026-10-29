@@ -111,6 +111,31 @@ All colors MUST be HSL.
   }
 }
 
+.hero-title {
+  font-family: "Yatra One", "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #e8c66f;
+  background: linear-gradient(
+    180deg,
+    #fff4bd 0%,
+    #e8c66f 28%,
+    #a76819 48%,
+    #f7e5a0 58%,
+    #bb7b20 78%,
+    #fff0b0 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #70420e;
+  text-shadow:
+    0 1px 0 #fff4bd,
+    0 3px 0 #b8791a,
+    0 5px 0 #754411,
+    0 8px 10px rgb(67 35 3 / 40%);
+  filter: drop-shadow(0 4px 3px rgb(67 35 3 / 25%));
+}
+
 @keyframes glow {
   from {
     text-shadow: 3px 3px 0px #92400e, 6px 6px 0px #ea580c, 9px 9px 0px #fb923c, 0 0 30px rgba(251,146,60,0.8), 0 0 60px rgba(255,255,255,0.6);

@@ -11,6 +11,7 @@ import User from "./pages/User";
 import NotFound from "./pages/NotFound";
 import { JoinTrust } from "./pages/JoinTrust";
 import { HamaraKarya } from "./pages/HamaraKarya";
+import Members from "./pages/Members";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/join-trust" element={<JoinTrust />} />
             <Route path="/hamara-karya" element={<HamaraKarya />} />
+            <Route path="/members" element={<Members />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin" element={

@@ -1,13 +1,22 @@
 export function getApiBase(): string {
-  // Use VITE_API_BASE in development to talk to Vercel dev server (port 3000)
   const base = import.meta.env.VITE_API_BASE as string | undefined;
-  return base?.trim() || "";
+  return base?.trim().replace(/\/$/, "") || "https://srkss-backend-3.onrender.com";
 }
 
 export async function apiFetch(input: string, init?: RequestInit) {
   const base = getApiBase();
   const url = base ? `${base}${input}` : input;
-  const res = await fetch(url, init);
+  const headers = new Headers(init?.headers);
+  const storedUser = localStorage.getItem("srkss_user");
+  if (storedUser) {
+    try {
+      const token = JSON.parse(storedUser)?.token;
+      if (token) headers.set("Authorization", `Bearer ${token}`);
+    } catch {
+      localStorage.removeItem("srkss_user");
+    }
+  }
+  const res = await fetch(url, { ...init, headers });
   let data: any = null;
   try {
     data = await res.json();

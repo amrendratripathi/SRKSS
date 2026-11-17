@@ -17,24 +17,13 @@ export default async function handler(req: Request): Promise<Response> {
     }
 
     const body = await req.json();
-    const email = String(body.email || "").trim().toLowerCase();
+    const mobile = String(body.mobile || body.email || "").trim();
     const password = String(body.password || "").trim();
 
-    if (!email || !password) {
-      return new Response(JSON.stringify({ error: "Email and password required" }), {
+    if (!mobile || !password) {
+      return new Response(JSON.stringify({ error: "Mobile number and password required" }), {
         status: 400,
       });
-    }
-
-    // Check for hardcoded admin credentials first
-    if (email === "admin@gmail.com" && password === "TiwariJi") {
-      return new Response(
-        JSON.stringify({ ok: true, user: { email, role: "admin" } }),
-        {
-          status: 200,
-          headers: { "content-type": "application/json" },
-        }
-      );
     }
 
     // Try to connect to MongoDB for regular users
@@ -43,7 +32,14 @@ export default async function handler(req: Request): Promise<Response> {
       const db = client.db("srkss");
       const users = db.collection("users");
 
-      const user = await users.findOne<{ passwordHash: string; role?: string }>({ email });
+      const user = await users.findOne<{
+        passwordHash: string;
+        role?: string;
+        mobile?: string;
+        email?: string;
+        name?: string;
+        address?: string;
+      }>({ $or: [{ mobile }, { email: mobile }] });
       if (!user) {
         return new Response(JSON.stringify({ error: "Invalid credentials" }), { status: 401 });
       }
@@ -55,7 +51,15 @@ export default async function handler(req: Request): Promise<Response> {
 
       // For simplicity, return a minimal session object. You can swap to JWT later.
       return new Response(
-        JSON.stringify({ ok: true, user: { email, role: user.role || "user" } }),
+        JSON.stringify({
+          ok: true,
+          user: {
+            name: user.name,
+            mobile: user.mobile || user.email || mobile,
+            address: user.address,
+            role: user.role || "user"
+          }
+        }),
         {
           status: 200,
           headers: { "content-type": "application/json" },
@@ -72,5 +76,4 @@ export default async function handler(req: Request): Promise<Response> {
     });
   }
 }
-
 

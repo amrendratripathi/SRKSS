@@ -8,20 +8,25 @@ import { Users, UserCheck, Search, Download, RefreshCw, Home } from "lucide-reac
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { apiFetch } from "@/lib/api";
 
 type TrustMember = { 
-  _id?: string; 
+  id: string;
   name: string; 
   email: string; 
   mobile: string; 
   location: string; 
   gender: string; 
+  photoUrl: string;
+  paymentScreenshotUrl: string;
   createdAt: string; 
 };
 
 type User = { 
   id: string; 
-  email: string; 
+  email?: string;
+  mobile?: string;
+  address?: string;
   name: string;
   gender: string;
   role: string; 
@@ -41,21 +46,13 @@ export default function Admin() {
     if (!loading) setLoading(true);
     try {
       // Fetch registered users
-      const res = await fetch("https://srkss-backend-2.onrender.com/api/users");
-      if (!res.ok) throw new Error("Failed to load users data");
-      const data = await res.json();
+      const data = await apiFetch("/api/users");
       if (data.users) {
         setUsers(data.users);
       }
 
-      // Fetch trust members separately if needed
-      const trustRes = await fetch("/api/admin/trust-members");
-      if (trustRes.ok) {
-        const trustData = await trustRes.json();
-        if (trustData.trustMembers) {
-          setTrustMembers(trustData.trustMembers);
-        }
-      }
+      const trustData = await apiFetch("/api/trust-members");
+      setTrustMembers(trustData.trustMembers || []);
     } catch (error) {
       console.error("Failed to load data:", error);
       // Don't clear existing data on error
@@ -95,17 +92,19 @@ export default function Admin() {
   };
 
   const filteredUsers = users.filter(user => 
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.mobile?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.gender?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const exportUsers = () => {
     const csvContent = [
-      ['Name', 'Email', 'Gender', 'Role', 'Created Date'].join(','),
+      ['Name', 'Mobile Number', 'Address', 'Gender', 'Role', 'Created Date'].join(','),
       ...filteredUsers.map(user => [
         user.name || '',
-        user.email,
+        user.mobile || user.email || '',
+        user.address || '',
         user.gender || '',
         user.role || 'user',
         formatDate(user.createdAt || '')
@@ -127,7 +126,7 @@ export default function Admin() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back, {user?.email}</p>
+            <p className="text-muted-foreground">Welcome back, {user?.name || user?.mobile || user?.email}</p>
           </div>
           <div className="flex items-center gap-2">
             <Link to="/#hero">
@@ -199,7 +198,8 @@ export default function Admin() {
                       <thead>
                         <tr className="text-left border-b">
                           <th className="py-3 pr-4 font-medium">Name</th>
-                          <th className="py-3 pr-4 font-medium">Email</th>
+                          <th className="py-3 pr-4 font-medium">Mobile Number</th>
+                          <th className="py-3 pr-4 font-medium">Address</th>
                           <th className="py-3 pr-4 font-medium">Gender</th>
                           <th className="py-3 pr-4 font-medium">Role</th>
                           <th className="py-3 pr-4 font-medium">Created</th>
@@ -210,7 +210,8 @@ export default function Admin() {
                         {filteredUsers.map((user) => (
                           <tr key={user.id} className="border-b last:border-b-0 hover:bg-muted/50">
                             <td className="py-3 pr-4 font-medium">{user.name}</td>
-                            <td className="py-3 pr-4">{user.email}</td>
+                            <td className="py-3 pr-4">{user.mobile || user.email}</td>
+                            <td className="py-3 pr-4">{user.address || "N/A"}</td>
                             <td className="py-3 pr-4">
                               <Badge variant="outline">{user.gender}</Badge>
                             </td>
@@ -265,18 +266,28 @@ export default function Admin() {
                           <th className="py-3 pr-4 font-medium">Mobile</th>
                           <th className="py-3 pr-4 font-medium">Location</th>
                           <th className="py-3 pr-4 font-medium">Gender</th>
+                          <th className="py-3 pr-4 font-medium">Photo</th>
+                          <th className="py-3 pr-4 font-medium">Payment screenshot</th>
                           <th className="py-3 pr-4 font-medium">Joining Date</th>
                         </tr>
                       </thead>
                       <tbody>
                         {trustMembers.map((member) => (
-                          <tr key={member._id || member.email} className="border-b last:border-b-0 hover:bg-muted/50">
+                          <tr key={member.id} className="border-b last:border-b-0 hover:bg-muted/50">
                             <td className="py-3 pr-4 font-medium">{member.name}</td>
                             <td className="py-3 pr-4">{member.email}</td>
                             <td className="py-3 pr-4">{member.mobile}</td>
                             <td className="py-3 pr-4">{member.location}</td>
                             <td className="py-3 pr-4">
                               <Badge variant="outline">{member.gender}</Badge>
+                            </td>
+                            <td className="py-3 pr-4">
+                              <a href={member.photoUrl} target="_blank" rel="noreferrer" aria-label={`View ${member.name}'s photo`}>
+                                <img src={member.photoUrl} alt={`${member.name}'s profile`} className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20" loading="lazy" />
+                              </a>
+                            </td>
+                            <td className="py-3 pr-4">
+                              <a className="text-primary underline" href={member.paymentScreenshotUrl} target="_blank" rel="noreferrer">View screenshot</a>
                             </td>
                             <td className="py-3 pr-4 text-muted-foreground">
                               {formatDate(member.createdAt)}
@@ -295,6 +306,5 @@ export default function Admin() {
     </div>
   );
 }
-
 
 

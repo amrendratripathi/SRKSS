@@ -11,7 +11,8 @@ export default function Signup() {
   const { toast } = useToast();
   const [name, setName] = useState("");
   const [gender, setGender] = useState<string | undefined>();
-  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ export default function Signup() {
     e.preventDefault();
     
     // Validate required fields
-    if (!name || !gender || !email || !password) {
+    if (!name.trim() || !gender || !mobile.trim() || !address.trim() || !password) {
       toast({ 
         title: "Missing required fields", 
         description: "Please fill in all required fields",
@@ -61,39 +62,27 @@ export default function Signup() {
 
     setLoading(true);
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-      const response = await fetch("https://srkss-backend-2.onrender.com/api/register", {
+      await apiFetch("/api/register", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name,
+          name: name.trim(),
           gender,
-          email,
+          mobile: mobile.trim(),
+          address: address.trim(),
           password
-        }),
-        signal: controller.signal
+        })
       });
-
-      clearTimeout(timeoutId);
-      
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: "Registration failed" }));
-        throw new Error(errorData.message || "Registration failed");
-      }
       
       toast({ 
         title: "Registration successful!", 
         description: "You can now login with your credentials"
       });
       navigate("/login");
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast({ 
         title: "Registration failed", 
-        description: err.message || "An error occurred during registration",
+        description: err instanceof Error ? err.message : "An error occurred during registration",
         variant: "destructive" 
       });
     } finally {
@@ -125,8 +114,24 @@ export default function Signup() {
           </Select>
         </div>
         <div>
-          <label className="block text-sm mb-1">Email</label>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label className="block text-sm mb-1">Mobile Number</label>
+          <Input
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm mb-1">Address</label>
+          <Input
+            autoComplete="street-address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label className="block text-sm mb-1">Password</label>
@@ -146,5 +151,3 @@ export default function Signup() {
     </div>
   );
 }
-
-

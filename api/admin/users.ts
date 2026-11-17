@@ -16,7 +16,7 @@ export default async function handler(_req: Request): Promise<Response> {
     // Also get regular users for completeness
     const users = db.collection("users");
     const userList = await users
-      .find({}, { projection: { email: 1, name: 1, gender: 1, role: 1, createdAt: 1, updatedAt: 1 } })
+      .find({}, { projection: { email: 1, mobile: 1, address: 1, name: 1, gender: 1, role: 1, createdAt: 1, updatedAt: 1 } })
       .sort({ createdAt: -1 })
       .limit(200)
       .toArray();
@@ -41,5 +41,4 @@ export default async function handler(_req: Request): Promise<Response> {
     });
   }
 }
-
 

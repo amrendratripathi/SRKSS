@@ -1,25 +1,11 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { PrismaClient } from "@prisma/client";
 
-const uri = process.env.MONGODB_URI as string;
-if (!uri) {
-  throw new Error("Missing MONGODB_URI environment variable");
-}
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-let cachedClient: MongoClient | null = null;
-
-export async function getMongoClient(): Promise<MongoClient> {
-  if (cachedClient) return cachedClient;
-  const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    },
+export const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: ["query", "error", "warn"],
   });
-  await client.connect();
-  cachedClient = client;
-  return cachedClient;
-}
 
-
-
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

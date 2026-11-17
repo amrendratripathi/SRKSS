@@ -7,7 +7,32 @@ import { ArrowLeft, Upload, Send, QrCode, Copy, Download } from "lucide-react";
 import QRCode from "qrcode";
 import { Link } from "react-router-dom";
 import { TrustMemberCard } from "@/components/TrustMemberCard";
+import { apiFetch } from "@/lib/api";
 // Member IDs are now static per request
+
+async function uploadToCloudinary(file: File): Promise<string> {
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME as string | undefined;
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET as string | undefined;
+  if (!cloudName || !uploadPreset) {
+    throw new Error("Cloudinary is not configured. Set the cloud name and upload preset in SRKSS/.env.local.");
+  }
+  if (!file.type.startsWith("image/")) throw new Error("Please choose an image file.");
+  if (file.size > 5 * 1024 * 1024) throw new Error("Each image must be 5 MB or smaller.");
+
+  const body = new FormData();
+  body.append("file", file);
+  body.append("upload_preset", uploadPreset);
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    method: "POST",
+    body,
+  });
+  const result = await response.json();
+  if (!response.ok || !result.secure_url) {
+    throw new Error(result.error?.message || "Photo upload failed. Check the Cloudinary preset settings.");
+  }
+  return result.secure_url as string;
+}
 
 export function JoinTrust() {
   const [formData, setFormData] = useState({
@@ -85,42 +110,34 @@ export function JoinTrust() {
     setIsSubmitting(true);
 
     try {
-      // Create FormData for file upload
-      const submitData = new FormData();
-      submitData.append("name", formData.name);
-      submitData.append("mobile", formData.mobile);
-      submitData.append("location", formData.location);
-      submitData.append("email", formData.email);
-      submitData.append("mail", formData.mail);
-      submitData.append("gender", formData.gender);
-      if (formData.photo) {
-        submitData.append("photo", formData.photo);
-      }
-      if (formData.paymentScreenshot) {
-        submitData.append("paymentScreenshot", formData.paymentScreenshot);
+      if (!formData.photo || !formData.paymentScreenshot) {
+        throw new Error("Please select both your photo and payment screenshot.");
       }
 
-      // Here you would typically send the data to your backend
-      // For now, we'll simulate the submission
-      console.log("Form data:", formData);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Create member data for trust card
+      const [photoUrl, paymentScreenshotUrl] = await Promise.all([
+        uploadToCloudinary(formData.photo),
+        uploadToCloudinary(formData.paymentScreenshot),
+      ]);
+
+      const result = await apiFetch("/api/join-trust", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          mobile: formData.mobile.trim(),
+          location: formData.location.trim(),
+          email: formData.email.trim(),
+          gender: formData.gender,
+          photoUrl,
+          paymentScreenshotUrl,
+        }),
+      });
+
       const newMemberData = {
-        name: formData.name,
-        mobile: formData.mobile,
-        location: formData.location,
-        email: formData.email,
-        gender: formData.gender,
-        photo: formData.photo ? URL.createObjectURL(formData.photo) : undefined,
-        createdAt: new Date().toISOString(),
-        memberId: 'SRKSS2025'
+        ...result.member,
+        photo: result.member.photoUrl,
+        memberId: `SRKSS${result.member.id}`,
       };
-      
-      console.log('Created member data:', newMemberData);
-      console.log('Photo URL:', newMemberData.photo);
       
       setMemberData(newMemberData);
       setShowTrustCard(true);
@@ -137,7 +154,7 @@ export function JoinTrust() {
         paymentScreenshot: null
       });
     } catch (error) {
-      alert("कुछ गलत हो गया। कृपया पुनः प्रयास करें।");
+      alert(error instanceof Error ? error.message : "कुछ गलत हो गया। कृपया पुनः प्रयास करें।");
     } finally {
       setIsSubmitting(false);
     }

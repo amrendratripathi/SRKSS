@@ -38,6 +38,7 @@ export function Header() {
           <a href="#join" className="text-foreground hover:text-primary transition-colors">
             Join Us
           </a>
+          <Link to="/members" className="text-foreground hover:text-primary transition-colors">View Members</Link>
           <a 
             href="mailto:tiwarimahendra1974@gmail.com" 
             className="text-foreground hover:text-primary transition-colors"
@@ -50,8 +51,11 @@ export function Header() {
           {user ? (
             <>
               <span className="text-sm text-muted-foreground">
-                Welcome, {user.email}
+                Welcome, {user.name || user.mobile || user.email}
               </span>
+              <Link to="/members">
+                <Button variant="ghost" size="sm">View Members</Button>
+              </Link>
               <Link to={user.role === "admin" ? "/admin" : "/user"}>
                 <Button variant="outline" size="sm">
                   <User className="h-4 w-4 mr-2" />
@@ -98,6 +102,7 @@ export function Header() {
             <a href="#join" className="text-foreground hover:text-primary transition-colors" onClick={() => setMobileOpen(false)}>
               Join Us
             </a>
+            <Link to="/members" className="text-foreground hover:text-primary transition-colors" onClick={() => setMobileOpen(false)}>View Members</Link>
             <a 
               href="mailto:tiwarimahendra1974@gmail.com" 
               className="text-foreground hover:text-primary transition-colors"
@@ -108,7 +113,7 @@ export function Header() {
             {user ? (
               <>
                 <span className="text-sm text-muted-foreground text-center">
-                  Welcome, {user.email}
+                  Welcome, {user.name || user.mobile || user.email}
                 </span>
                 <Link to={user.role === "admin" ? "/admin" : "/user"} onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" className="w-full">

@@ -17,10 +17,12 @@ export default async function handler(req: Request): Promise<Response> {
     }
 
     const body = await req.json();
-    const { email, password, name, gender } = body;
+    const { password, name, gender } = body;
+    const mobile = String(body.mobile || "").trim();
+    const address = String(body.address || "").trim();
 
-    if (!email || !password || !name) {
-      return new Response(JSON.stringify({ error: "Email, password, and name are required" }), {
+    if (!mobile || !address || !password || !name || !gender) {
+      return new Response(JSON.stringify({ error: "Name, gender, mobile number, address, and password are required" }), {
         status: 400,
       });
     }
@@ -30,7 +32,9 @@ export default async function handler(req: Request): Promise<Response> {
     const users = db.collection("users");
 
     // Check if user already exists
-    const existingUser = await users.findOne({ email: email.toLowerCase() });
+    const existingUser = await users.findOne({
+      $or: [{ mobile }, { email: mobile }]
+    });
     if (existingUser) {
       return new Response(JSON.stringify({ error: "User already exists" }), {
         status: 409,
@@ -43,7 +47,10 @@ export default async function handler(req: Request): Promise<Response> {
 
     // Create user document
     const userDoc = {
-      email: email.toLowerCase(),
+      // Keep the legacy unique email index populated for existing deployments.
+      email: mobile,
+      mobile,
+      address,
       passwordHash,
       name: name.trim(),
       gender: gender || "not specified",

@@ -1,47 +1,9 @@
+# SRKSS web app
 
+The frontend is a Vite/React application. Signup and login call the Express API in `srkss.backend`.
 
-## What technologies are used for this project?
+For local development, set `VITE_API_BASE=http://localhost:3000` in `SRKSS/.env.local`, run the API from `srkss.backend`, and run `npm run dev` from `SRKSS`. See `srkss.backend/README.md` for PostgreSQL setup.
 
-This project is built with:
+When `VITE_API_BASE` is not set, the frontend uses the deployed API at `https://srkss-backend-3.onrender.com`. To change it for a Vercel deployment, set `VITE_API_BASE` in the Vercel project's Environment Variables and redeploy.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-### Environment setup
-
-Create a `.env` file in the project root with your MongoDB connection string:
-
-```
-MONGODB_URI=mongodb+srv://<user>:<pass>@<cluster>/<dbName>?retryWrites=true&w=majority&appName=<appName>
-```
-
-For your provided cluster, set:
-
-```
-MONGODB_URI=mongodb+srv://rajjubabu531_db_user:c22DpB8EDOKUtEzh@srkss.wj2xqv4.mongodb.net/?retryWrites=true&w=majority&appName=srkss
-```
-
-Then restart the dev server.
-
-For local development with both frontend and API:
-
-```
-# one-time install
-npm i -g vercel
-
-# from project root
-vercel dev
-```
-
-Open `http://localhost:3000`. Frontend calls to `/api/...` will work via the local serverless runtime. If you use `npm run dev` (Vite at 5173), set `VITE_API_BASE=http://localhost:3000` and the frontend will talk to the Vercel dev API.
-
-### Auth API endpoints
-
-- `POST /api/auth/register` with JSON `{ email, password, role? }`
-- `POST /api/auth/login` with JSON `{ email, password }`
-
-Users are stored in the `srkss.users` collection with `passwordHash` (bcrypt).
-
+The frontend sends the name, gender, mobile number, address, and password to the API. The API stores the password only as a bcrypt hash. Confirm Password is a client-side check and is not stored.

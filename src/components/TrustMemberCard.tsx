@@ -22,12 +22,6 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [imageLoadError, setImageLoadError] = useState(false);
   
-  // Debug logging
-  console.log('TrustMemberCard - memberData:', memberData);
-  console.log('TrustMemberCard - photo URL:', memberData.photo);
-  console.log('TrustMemberCard - photo type:', typeof memberData.photo);
-  console.log('TrustMemberCard - photo starts with blob:', memberData.photo?.startsWith('blob:'));
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('hi-IN', {
@@ -176,19 +170,15 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
                 <div className="w-3/5 flex flex-col justify-start p-4">
                   {/* Member Photo and Name */}
                   <div className="flex items-center space-x-3 mb-2.5">
-                                     {memberData.photo && memberData.photo.startsWith('blob:') ? (
+                                     {memberData.photo ? (
                        <div className="relative">
                          <img 
                            src={memberData.photo} 
                            alt={memberData.name}
+                           crossOrigin="anonymous"
                            className="w-16 h-16 rounded-full border-2 border-orange-400/30 object-cover shadow-lg"
-                           onLoad={() => {
-                             console.log('Photo loaded successfully:', memberData.photo);
-                             setImageLoadError(false);
-                           }}
+                           onLoad={() => setImageLoadError(false)}
                            onError={(e) => {
-                             console.log('Photo load error:', e);
-                             console.log('Failed photo URL:', memberData.photo);
                              setImageLoadError(true);
                              const target = e.target as HTMLImageElement;
                              target.style.display = 'none';
@@ -196,13 +186,6 @@ export function TrustMemberCard({ memberData, onClose }: TrustMemberCardProps) {
                          />
                          <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
                            <div className="w-2 h-2 bg-white rounded-full"></div>
-                         </div>
-                       </div>
-                     ) : memberData.photo ? (
-                       <div className="w-16 h-16 rounded-full border-2 border-orange-400/30 bg-orange-500/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                         <div className="text-center">
-                           <User className="w-8 h-8 text-orange-700 mx-auto mb-1" />
-                           <p className="text-xs text-orange-600">Photo URL Invalid</p>
                          </div>
                        </div>
                      ) : (

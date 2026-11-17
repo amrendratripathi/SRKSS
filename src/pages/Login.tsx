@@ -3,14 +3,14 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import { apiFetch } from "@/lib/api";
 
 export default function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { login } = useAuth();
-  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,10 +18,10 @@ export default function Login() {
     e.preventDefault();
     
     // Validate required fields
-    if (!email || !password) {
+    if (!mobile.trim() || !password) {
       toast({ 
         title: "Missing required fields", 
-        description: "Please enter both email and password",
+        description: "Please enter both mobile number and password",
         variant: "destructive" 
       });
       return;
@@ -29,31 +29,18 @@ export default function Login() {
 
     setLoading(true);
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-      const response = await fetch("https://srkss-backend-2.onrender.com/api/login", {
+      const data = await apiFetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        signal: controller.signal
+        body: JSON.stringify({ mobile: mobile.trim(), password })
       });
-
-      clearTimeout(timeoutId);
-      
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: "Login failed" }));
-        throw new Error(errorData.message || "Login failed");
-      }
-      
-      const data = await response.json();
       
       if (!data.user) {
         throw new Error("Invalid response from server");
       }
 
       // Store user data
-      login(data.user);
+      login({ ...data.user, token: data.token });
       
       // Show success message
       toast({ 
@@ -67,10 +54,10 @@ export default function Login() {
       } else {
         navigate("/user");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast({ 
         title: "Login failed", 
-        description: err.message || "Invalid email or password",
+        description: err instanceof Error ? err.message : "Invalid mobile number or password",
         variant: "destructive" 
       });
     } finally {
@@ -83,8 +70,15 @@ export default function Login() {
       <h2 className="text-2xl font-semibold mb-6">Login</h2>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm mb-1">Email</label>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label className="block text-sm mb-1">Mobile Number</label>
+          <Input
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label className="block text-sm mb-1">Password</label>
@@ -100,5 +94,3 @@ export default function Login() {
     </div>
   );
 }
-
-

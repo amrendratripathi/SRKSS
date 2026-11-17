@@ -8,6 +8,12 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      "/api": {
+        target: "https://srkss-backend-3.onrender.com",
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [
     react(),

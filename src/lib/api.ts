@@ -1,6 +1,8 @@
 export function getApiBase(): string {
   const base = import.meta.env.VITE_API_BASE as string | undefined;
-  return base?.trim().replace(/\/$/, "") || "https://srkss-backend-3.onrender.com";
+  const configuredBase = base?.trim().replace(/\/$/, "");
+  if (configuredBase) return configuredBase;
+  return import.meta.env.DEV ? "" : "https://srkss-backend-3.onrender.com";
 }
 
 export async function apiFetch(input: string, init?: RequestInit) {
